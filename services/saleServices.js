@@ -10,7 +10,7 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const sale = await saleModels.getById(id);
-  // if (!sale.length) throw err(404, 'Sale not found');
+  if (!sale.length) throw err(404, 'Sale not found');
 
   return sale;
 };
