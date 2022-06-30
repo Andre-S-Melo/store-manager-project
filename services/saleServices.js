@@ -39,6 +39,9 @@ const create = async (saleBody) => {
 };
 
 const deleteById = async (id) => {
+  const saleById = await getById(id);
+  if (!saleById) throw err(404, 'Product not found');
+
   await saleModels.deleteById(id);
 };
 
