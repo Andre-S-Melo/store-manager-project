@@ -21,6 +21,9 @@ const create = async (name) => {
 };
 
 const update = async (id, name) => {
+  const productById = await getById(id);
+  if (!productById) throw err(404, 'Product not found');
+
   const product = await productModels.update(id, name);
 
   return product;
