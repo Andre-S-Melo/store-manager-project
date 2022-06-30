@@ -30,6 +30,9 @@ const update = async (id, name) => {
 };
 
 const deleteById = async (id) => {
+  const productById = await getById(id);
+  if (!productById) throw err(404, 'Product not found');
+
   await productModels.deleteById(id);
 };
 
