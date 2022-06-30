@@ -38,8 +38,13 @@ const create = async (saleBody) => {
   };
 };
 
+const deleteById = async (id) => {
+  await saleModels.deleteById(id);
+};
+
 module.exports = {
   getAll,
   getById,
   create,
+  deleteById,
 };
