@@ -1,3 +1,3 @@
-const err = (code, message) => ({ code, message });
+const err = (statusCode, message) => ({ statusCode, message });
 
 module.exports = err;
