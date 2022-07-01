@@ -13,7 +13,7 @@ const getAll = async (_req, res, next) => {
 const getById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const sale = await saleServices.getById(id);
+    const sale = await saleServices.getById(+id);
 
     return res.status(200).json(sale);
   } catch (error) {
@@ -32,10 +32,22 @@ const create = async (req, res, next) => {
   }
 };
 
+const update = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const saleBody = req.body;
+    const updatedSale = await saleServices.update(+id, saleBody);
+
+    return res.status(200).json(updatedSale);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const deleteById = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await saleServices.deleteById(id);
+    await saleServices.deleteById(+id);
 
     return res.status(204).end();
   } catch (error) {
@@ -47,5 +59,6 @@ module.exports = {
   getAll,
   getById,
   create,
+  update,
   deleteById,
 };

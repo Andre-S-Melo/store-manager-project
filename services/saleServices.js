@@ -38,6 +38,17 @@ const create = async (saleBody) => {
   };
 };
 
+const update = async (id, saleBody) => {
+  await Promise.all(saleBody.map(async ({ productId, quantity }) => {
+    await saleModels.update(id, productId, quantity);
+  }));
+
+  return {
+    saleId: id,
+    itemUpdated: saleBody,
+  };
+};
+
 const deleteById = async (id) => {
   const saleById = await getById(id);
   if (!saleById) throw err(404, 'Product not found');
@@ -49,5 +60,6 @@ module.exports = {
   getAll,
   getById,
   create,
+  update,
   deleteById,
 };
