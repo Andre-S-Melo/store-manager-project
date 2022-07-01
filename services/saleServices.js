@@ -1,6 +1,6 @@
 const err = require('../utils/error');
 const saleModels = require('../models/saleModels');
-// const productModels = require('../models/productModels');
+const productModels = require('../models/productModels');
 
 const getAll = async () => {
   const sales = await saleModels.getAll();
@@ -16,18 +16,16 @@ const getById = async (id) => {
 };
 
 const create = async (saleBody) => {
-  const saleCreated = await saleModels.createSale();
+  const validProduct = await Promise.all(saleBody.map(async ({ productId }) => {
+    const result = await productModels.getById(productId);
+    return result;
+  }));
 
-  // const productValidat = await Promise.all(saleBody.map(async ({ productId }) => {
-  //   const result = await productModels.getById(productId);
-
-  //   return result;
-  // }));
+  if (validProduct.some((item) => item.length === 0)) {
+    throw err(404, 'Product not found');
+  }
   
-  // if (productValidat.some((item) => item.length === 0)) {
-  //   throw err(404, 'Product not found');
-  // }
-
+  const saleCreated = await saleModels.createSale();
   await Promise.all(saleBody.map(async ({ productId, quantity }) => {
     await saleModels.createProductSales(saleCreated, productId, quantity);
   }));
