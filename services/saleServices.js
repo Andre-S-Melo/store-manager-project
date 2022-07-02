@@ -37,6 +37,18 @@ const create = async (saleBody) => {
 };
 
 const update = async (id, saleBody) => {
+  const sale = await saleModels.getById(id);
+  if (!sale.length) throw err(404, 'Sale not found');
+
+  const validProduct = await Promise.all(saleBody.map(async ({ productId }) => {
+    const result = await productModels.getById(productId);
+    return result;
+  }));
+
+  if (validProduct.some((item) => item.length === 0)) {
+    throw err(404, 'Product not found');
+  }
+
   await Promise.all(saleBody.map(async ({ productId, quantity }) => {
     await saleModels.update(id, productId, quantity);
   }));
