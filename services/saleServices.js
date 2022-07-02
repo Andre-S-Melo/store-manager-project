@@ -55,7 +55,7 @@ const update = async (id, saleBody) => {
 
   return {
     saleId: id,
-    itemUpdated: saleBody,
+    itemsUpdated: saleBody,
   };
 };
 
