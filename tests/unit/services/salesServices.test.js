@@ -113,7 +113,7 @@ describe('Teste da camada saleServices', () => {
         salesModels.getById.restore();
       });
 
-      it('Responde a requisição retornando um objeto contendo a venda', async () => {
+      it('Responde a requisição retornando um array de objetos contendo a venda', async () => {
         const sale = await salesServices.getById(ID);
 
         expect(sale).not.to.be.empty;
