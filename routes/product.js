@@ -6,6 +6,7 @@ const route = express.Router();
 
 route.get('/', products.getAll);
 route.post('/', validProduct, products.create);
+route.get('/search', products.getBySearch);
 route.get('/:id', products.getById);
 route.put('/:id', validProduct, products.update);
 route.delete('/:id', products.deleteById);
