@@ -14,6 +14,16 @@ const getById = async (id) => {
   return product;
 };
 
+const getBySearch = async (q) => {
+  const products = await getAll();
+  if (!q) return products;
+
+  const searchProduct = products.filter((product) => product.name.includes(q));
+  if (!searchProduct) return '[]';
+
+  return searchProduct;
+};
+
 const create = async (name) => {
   const product = await productModels.create(name);
 
@@ -39,6 +49,7 @@ const deleteById = async (id) => {
 module.exports = {
   getAll,
   getById,
+  getBySearch,
   create,
   update,
   deleteById,

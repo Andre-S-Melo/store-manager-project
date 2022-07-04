@@ -21,6 +21,17 @@ const getById = async (req, res, next) => {
   }
 };
 
+const getBySearch = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+    const searchProduct = await productServices.getBySearch(q);
+
+    return res.status(200).json(searchProduct);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const create = async (req, res, next) => {
   try {
     const { name } = req.body;
@@ -59,6 +70,7 @@ const deleteById = async (req, res, next) => {
 module.exports = {
   getAll,
   getById,
+  getBySearch,
   create,
   update,
   deleteById,
