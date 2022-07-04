@@ -1,18 +1,17 @@
+const schema = require('./schema');
 const err = require('../utils/error');
 
-const isValidName = (req, _res, next) => {
-  const { name } = req.body;
+const validProduct = (req, _res, next) => {
+  const { error } = schema.productSchema.validate(req.body);
 
-  if (!name) throw err(400, '"name" is required');
-
-  if (name.length < 5) throw err(422, '"name" length must be at least 5 characters long');
-
+  if (error) {
+    if (error.message.includes('required')) {
+      return next(err(400, error.message));
+    }
+    return next(err(422, error.message));
+  }
   next();
 };
-
-const validProduct = [
-  isValidName,
-];
 
 module.exports = {
   validProduct,

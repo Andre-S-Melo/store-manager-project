@@ -1,20 +1,18 @@
+const schema = require('./schema');
 const err = require('../utils/error');
 
-const isValidSale = (req, _res, next) => {
-  const [{ productId, quantity }] = req.body;
+const validSale = (req, _res, next) => {
+  const [data] = req.body;
+  const { error } = schema.saleSchema.validate(data);
 
-  if (!productId) throw err(400, '"productId" is required');
-
-  if (!Number.isInteger(quantity)) throw err(400, '"quantity" is required');
-
-  if (quantity <= 0) throw err(422, '"quantity" must be greater than or equal to 1');
-
+  if (error) {
+    if (error.message.includes('required')) {
+      return next(err(400, error.message));
+    }
+    return next(err(422, error.message));
+  }
   next();
 };
-
-const validSale = [
-  isValidSale,
-];
 
 module.exports = {
   validSale,
